@@ -3,3 +3,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply px-5 bg-[#2A222a] font-body;
+  }
+}
+
+@layer components {
+  .page-container {
+    max-width: 1180px;
+
+    @apply mx-auto;
+  }
+}
