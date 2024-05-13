@@ -1,8 +1,28 @@
 import { Fragment } from "react";
 
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
+import MoviesCard from "./assets/movies/MoviesCard";
+
 //import { NavLink } from "react-router-dom";
 
 const App = () => {
+  //console.log(Autoplay());
+
   return (
     <Fragment>
       <header className="flex items-center justify-center py-2 mb-3 text-white select-none header gap-x-5">
@@ -59,36 +79,66 @@ const App = () => {
         </div>
       </section>
 
-      <section className="pb-40 movies-layout page-container">
+      <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">Now Playing</h2>
+        <Swiper
+          effect="slide"
+          slidesPerView={4}
+          spaceBetween={50}
+          //grabCursor={true}
+          //since the slides array length is 6,
+          //slidesPerView should be less than or equal to 3
+          loop={true}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+            stopOnLastSlide: false,
+            waitForTransition: true,
+          }}
+          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+        >
+          <SwiperSlide>
+            {" "}
+            <MoviesCard></MoviesCard>
+          </SwiperSlide>
+          <SwiperSlide>
+            {" "}
+            <MoviesCard></MoviesCard>
+          </SwiperSlide>
+          <SwiperSlide>
+            {" "}
+            <MoviesCard></MoviesCard>
+          </SwiperSlide>
+          <SwiperSlide>
+            {" "}
+            <MoviesCard></MoviesCard>
+          </SwiperSlide>
+          <SwiperSlide>
+            {" "}
+            <MoviesCard></MoviesCard>
+          </SwiperSlide>
+          <SwiperSlide>
+            {" "}
+            <MoviesCard></MoviesCard>
+          </SwiperSlide>
+        </Swiper>
+      </section>
+      <section className="pb-5 movies-layout page-container">
+        <h2 className="my-4 font-bold text-white capitalize">trending</h2>
         <div className="grid grid-cols-4 gap-10 movie-list">
-          <div className="grid gap-3 p-2 bg-white rounded-md bg-opacity-10 movie-card">
-            <img
-              src="https://toplist.vn/images/800px/spider-man-homecoming-2017-871062.jpg"
-              alt=""
-              className="rounded-md h-[300px] object-cover"
-            />
-            <h5 className="font-semibold text-white">Spider-Man: Homecoming</h5>
-            <div className="flex justify-between text-white manufacture-evaluate text-opacity-70">
-              <div className="manufacture">2017</div>
-              <div className="evaluate">
-                7.4{" "}
-                <i
-                  className="fa-solid fa-star "
-                  style={{ color: "#FFD43B" }}
-                ></i>
-              </div>
-            </div>
-            <button className="py-2 px-1 text-white button bg-[#FF3D71] rounded-lg max-w-full flex justify-center gap-3 text-center">
-              Watch now
-              <span className="">
-                <i
-                  className=" fa-solid fa-circle-play fa-xl"
-                  style={{ color: "#ffffff" }}
-                ></i>
-              </span>
-            </button>
-          </div>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+        </div>
+      </section>
+      <section className="pb-5 movies-layout page-container">
+        <h2 className="my-4 font-bold text-white capitalize">rating</h2>
+        <div className="grid grid-cols-4 gap-10 movie-list">
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
         </div>
       </section>
     </Fragment>
