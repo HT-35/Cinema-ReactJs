@@ -1,21 +1,5 @@
 import { Fragment } from "react";
 
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Autoplay,
-} from "swiper/modules";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-
 import MoviesCard from "./assets/movies/MoviesCard";
 
 //import { NavLink } from "react-router-dom";
@@ -81,64 +65,23 @@ const App = () => {
 
       <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">Now Playing</h2>
-        <Swiper
-          effect="slide"
-          slidesPerView={4}
-          spaceBetween={50}
-          //grabCursor={true}
-          //since the slides array length is 6,
-          //slidesPerView should be less than or equal to 3
-          loop={true}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-            stopOnLastSlide: false,
-            waitForTransition: true,
-          }}
-          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        >
-          <SwiperSlide>
-            {" "}
-            <MoviesCard></MoviesCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <MoviesCard></MoviesCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <MoviesCard></MoviesCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <MoviesCard></MoviesCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <MoviesCard></MoviesCard>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <MoviesCard></MoviesCard>
-          </SwiperSlide>
-        </Swiper>
       </section>
       <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">trending</h2>
-        <div className="grid grid-cols-4 gap-10 movie-list">
-          <MoviesCard></MoviesCard>
-          <MoviesCard></MoviesCard>
+        <div className="movies-list">
+          <div className="grid grid-cols-4 gap-10 movie-list">
+            <MoviesCard></MoviesCard>
+            <MoviesCard></MoviesCard>
+          </div>
         </div>
       </section>
       <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">rating</h2>
-        <div className="grid grid-cols-4 gap-10 movie-list">
-          <MoviesCard></MoviesCard>
-          <MoviesCard></MoviesCard>
+        <div className="movies-list">
+          <div className="grid grid-cols-4 gap-10 movie-list">
+            <MoviesCard></MoviesCard>
+            <MoviesCard></MoviesCard>
+          </div>
         </div>
       </section>
     </Fragment>

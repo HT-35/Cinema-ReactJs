@@ -16,4 +16,7 @@
 
     @apply mx-auto;
   }
+  .swiper {
+    padding: 50px;
+  }
 }
