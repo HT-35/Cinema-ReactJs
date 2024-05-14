@@ -16,7 +16,9 @@
 
     @apply mx-auto;
   }
-  .swiper {
+
+  .movies-list .swiper {
     padding: 50px;
+    user-select: none;
   }
 }

@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 
-import MoviesCard from "./assets/movies/MoviesCard";
+//import MoviesCard from "./assets/movies/MoviesCard";
+import MoviesList from "./assets/movies/MoviesList";
 
 //import { NavLink } from "react-router-dom";
 
@@ -65,23 +66,18 @@ const App = () => {
 
       <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">Now Playing</h2>
+        <MoviesList></MoviesList>
       </section>
       <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">trending</h2>
         <div className="movies-list">
-          <div className="grid grid-cols-4 gap-10 movie-list">
-            <MoviesCard></MoviesCard>
-            <MoviesCard></MoviesCard>
-          </div>
+          <MoviesList></MoviesList>
         </div>
       </section>
       <section className="pb-5 movies-layout page-container">
         <h2 className="my-4 font-bold text-white capitalize">rating</h2>
         <div className="movies-list">
-          <div className="grid grid-cols-4 gap-10 movie-list">
-            <MoviesCard></MoviesCard>
-            <MoviesCard></MoviesCard>
-          </div>
+          <MoviesList></MoviesList>
         </div>
       </section>
     </Fragment>
