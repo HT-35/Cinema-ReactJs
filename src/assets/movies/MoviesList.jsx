@@ -15,7 +15,26 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import MoviesCard from "./MoviesCard";
 
+import useSWR from "swr";
+import { fetcher } from "../../config/config";
+import { useEffect, useState } from "react";
+
+//const api =
+//  "https://api.themoviedb.org/3/movie/now_playing?api_key=9a7aece2bf41a46e74ed0abeb63b30f7&language=en-US&page=1";
+
+const api = `https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1`;
+
 const MoviesList = () => {
+  const { data, error, isLoading } = useSWR(api, fetcher);
+
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    console.log("data:", data?.items);
+    //if (data && data.result) setMovies(data);
+    //console.log("data:", movies);
+  }, [data, movies]);
+
   return (
     <div className="movies-list">
       <Swiper
