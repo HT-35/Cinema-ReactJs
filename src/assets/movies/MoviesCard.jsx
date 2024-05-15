@@ -1,16 +1,22 @@
 //import React from "react";
 
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const MoviesCard = ({ movies }) => {
   const { name, poster_url, slug, year } = movies;
   //const poster = `https://img.ophim.live/uploads/movies/${poster_url}`;
+
   const compactName =
     name.length > 30
       ? name.length <= 35
         ? `${name.slice(0, 35)}`
         : `${name.slice(0, 35)}...`
       : name;
+
+  // điều hướng
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col h-full gap-3 p-2 bg-white rounded-md bg-opacity-10 movie-card">
       <img
@@ -31,7 +37,8 @@ const MoviesCard = ({ movies }) => {
         </div>
         <button
           onClick={() => {
-            console.log(slug);
+            //console.log(slug);
+            navigate(`/movies/${slug}`);
           }}
           className="py-2 px-1 text-white button bg-[#FF3D71] rounded-lg max-w-full flex justify-center gap-3 text-center"
         >
