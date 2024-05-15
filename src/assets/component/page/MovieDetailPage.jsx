@@ -47,7 +47,7 @@ const MovieDetailPage = () => {
 
       <div className="max-w-[942px] mx-auto">
         <div className="flex items-center justify-center mt-32 name-film ">
-          <h1 className="text-4xl font-semibold text-white">
+          <h1 className="text-4xl font-semibold text-center text-white">
             {name ? name : "name"}
           </h1>
         </div>
