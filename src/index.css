@@ -7,6 +7,7 @@
 @layer base {
   body {
     @apply px-5 bg-[#2A222a] font-body;
+    transition: transform 0.5s ease, opacity 0.5s ease;
   }
 }
 
@@ -15,10 +16,18 @@
     max-width: 1280px;
 
     @apply mx-auto;
+    @apply transition-all;
   }
 
   .movies-list .swiper {
     padding: 50px;
     user-select: none;
+    height: auto;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .movies-panner .swiper {
+    user-select: none;
+    height: auto;
+    transition: transform 0.5s ease, opacity 0.5s ease;
   }
 }
