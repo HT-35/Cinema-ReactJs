@@ -23,7 +23,7 @@ const MovieDetailPage = () => {
   const detailMovie = data?.movie || [];
 
   const { name, category, content, poster_url } = detailMovie;
-  //console.log("actor:", actor);
+
   console.log("detailMovie:", detailMovie);
 
   return (
