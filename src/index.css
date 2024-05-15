@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply px-5 bg-[#2A222a] font-body;
+    @apply px-5 bg-[#0f2635] font-body;
     transition: transform 0.5s ease, opacity 0.5s ease;
   }
 }
@@ -29,5 +29,50 @@
     user-select: none;
     height: auto;
     transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .btn-search {
+    position: relative;
+    padding: 0.5rem;
+    color: white;
+
+    min-width: 200px;
+    /*border-width: 2px;
+
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;*/
+    background-image: linear-gradient(to bottom right, #4ca9df, #292e91);
+
+    z-index: 1;
+  }
+
+  .btn-search:active::before {
+    position: absolute;
+
+    content: "";
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    inset: 0;
+    background-image: linear-gradient(to bottom, #292e91, #292e91);
+    /*color: #5f6e77;*/
+    z-index: -1;
+    transition: opacity 0.3s linear;
+    opacity: 0;
+  }
+
+  .btn-search::before {
+    position: absolute;
+    content: "";
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    inset: 0;
+    background-image: linear-gradient(to bottom, #4ca9df, #292e91);
+    z-index: -1;
+    transition: opacity 0.3s linear;
+    opacity: 0;
+  }
+
+  .btn-search:hover::before {
+    opacity: 1;
   }
 }
