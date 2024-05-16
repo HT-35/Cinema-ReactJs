@@ -29,7 +29,7 @@ const MovieDetailPage = () => {
   return (
     <div className="pb-32">
       <div className="relative h-[60vh] w-full -translate-y-14 -z-10">
-        <div className=" absolute inset-0 overlay bg-gradient-to-t from-[rgba(0,0,0,0.9)] to-[rgba(0,0,0,0)]"></div>
+        <div className=" absolute inset-0 overlay bg-gradient-to-t from-[rgba(0,0,0,1)] to-[rgba(0,0,0,0.4)]"></div>
         <div
           className="w-full h-full bg-center bg-no-repeat "
           style={{
@@ -46,15 +46,13 @@ const MovieDetailPage = () => {
       </div>
 
       <div className="max-w-[942px] mx-auto">
-        <div className="flex items-center justify-center mt-32 name-film ">
-          <h1 className="text-4xl font-semibold text-center text-white">
-            {name ? name : "name"}
-          </h1>
-        </div>
+        <h1 className="mt-32 text-4xl font-semibold text-center text-white">
+          {name ? name : "name"}
+        </h1>
 
-        <div className="flex items-center justify-center gap-10 mt-6 ">
-          {category?.length > 0 &&
-            category.map((item) => {
+        {category?.length > 0 && (
+          <div className="flex items-center justify-center gap-10 mt-6 ">
+            {category.map((item) => {
               console.log(item);
               return (
                 <span
@@ -65,7 +63,8 @@ const MovieDetailPage = () => {
                 </span>
               );
             })}
-        </div>
+          </div>
+        )}
 
         <div className="flex items-center justify-center mt-10">
           <div className="text-base font-normal text-center text-white">
