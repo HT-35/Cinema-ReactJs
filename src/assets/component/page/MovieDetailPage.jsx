@@ -14,7 +14,6 @@ function removeHtmlTags(s) {
 
 const MovieDetailPage = () => {
   const { id } = useParams();
-  console.log("id:", id);
 
   const api = `https://ophim1.com/phim/${id}`;
 
@@ -46,59 +45,7 @@ const MovieDetailPage = () => {
       </div>
 
       <div className="max-w-[942px] mx-auto">
-        <h1 className="mt-32 text-4xl font-semibold text-center text-white">
-          {name ? name : "name"}
-        </h1>
-
-        {category?.length > 0 && (
-          <div className="flex items-center justify-center gap-10 mt-6 ">
-            {category.map((item) => {
-              console.log(item);
-              return (
-                <span
-                  key={item.id}
-                  className="text-lg font-semibold text-[#7D6AFF] border-2 border-[#7D6AFF] p-2 px-4 rounded-3xl"
-                >
-                  {item.name || "category"}
-                </span>
-              );
-            })}
-          </div>
-        )}
-
-        <div className="flex items-center justify-center mt-10">
-          <div className="text-base font-normal text-center text-white">
-            {removeHtmlTags(content)}
-          </div>
-        </div>
-        {/*{content}*/}
-
-        <div className="flex items-center justify-center mt-12 name-film ">
-          <h1 className="text-4xl font-semibold text-white">Casts</h1>
-        </div>
-
-        <div className="flex items-center justify-between mt-6 ">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
-            alt="artis"
-            className="object-cover w-[211px] h-[270px]"
-          />
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
-            alt="artis"
-            className="object-cover w-[211px] h-[270px]"
-          />
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
-            alt="artis"
-            className="object-cover w-[211px] h-[270px]"
-          />
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
-            alt="artis"
-            className="object-cover w-[211px] h-[270px]"
-          />
-        </div>
+        <DetailMovies></DetailMovies>
         <div className="flex items-center justify-center mt-12 name-film ">
           <img
             src="https://s3-alpha-sig.figma.com/img/44c7/ffa5/90be4ad3f24b3541f079f649fc43b543?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=itV1BSeK4CY0fbEAOazDyM6ty58HBn8HyfxlEWCH7h5sluSFDfyCgh9d~R63JSRy9Azuo7Z4CehMkQQhqGTn-Sn8LcujWz50ZqeTuFKK7WzQ9di5NX0RXknkOEOoAxCKd7O9Gc4S71RGxEQJp~ap9QwJnRCsnnUSvGgOx6d2ZhkEL8jRnSRQf8NL7rkzcG7MpAGBooE4MhzL26aWWt1EnLTpYXNweSslIVPFelUlc4UglokedrLPGIc930w5dUmcX~FnC~nkqDGZcMm~-n0Rn9UlqYlDymJzJzN6IN5xYt7EFbXWiRyqDzm-gOS7SpVI3hz9ddFL3KK7aVYLaja15A__"
@@ -109,5 +56,75 @@ const MovieDetailPage = () => {
     </div>
   );
 };
+
+function DetailMovies() {
+  const { id } = useParams();
+
+  const api = `https://ophim1.com/phim/${id}`;
+
+  const { data } = useSWR(api, fetcher);
+
+  const detailMovie = data?.movie || [];
+
+  const { name, category, content } = detailMovie;
+
+  return (
+    <div className="">
+      <h1 className="mt-32 text-4xl font-semibold text-center text-white">
+        {name ? name : "name"}
+      </h1>
+
+      {category?.length > 0 && (
+        <div className="flex items-center justify-center gap-10 mt-6 ">
+          {category.map((item) => {
+            console.log(item);
+            return (
+              <span
+                key={item.id}
+                className="text-lg font-semibold text-[#7D6AFF] border-2 border-[#7D6AFF] p-2 px-4 rounded-xl"
+              >
+                {item.name || "category"}
+              </span>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="flex items-center justify-center mt-10">
+        <div className="text-base font-normal leading-relaxed text-center text-white">
+          {removeHtmlTags(content)}
+        </div>
+      </div>
+      {/*{content}*/}
+
+      <div className="flex items-center justify-center mt-12 name-film ">
+        <h1 className="text-4xl font-semibold text-white">Casts</h1>
+      </div>
+
+      <div className="flex items-center justify-between mt-6 ">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
+          alt="artis"
+          className="object-cover w-[211px] h-[270px]"
+        />
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
+          alt="artis"
+          className="object-cover w-[211px] h-[270px]"
+        />
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
+          alt="artis"
+          className="object-cover w-[211px] h-[270px]"
+        />
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttVgVbu7nZMelDSAT-Zp3NfN0yaXL-Ehph-zSvYyqqEx6Fluk"
+          alt="artis"
+          className="object-cover w-[211px] h-[270px]"
+        />
+      </div>
+    </div>
+  );
+}
 
 export default MovieDetailPage;
