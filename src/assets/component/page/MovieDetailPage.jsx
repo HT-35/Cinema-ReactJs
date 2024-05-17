@@ -3,6 +3,9 @@ import { fetcher } from "../../../config/config";
 import useSWR from "swr";
 //import { Fragment } from "react";
 
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+
 function removeHtmlTags(s) {
   const pattern = /<[^>]*>/g; // Regular expression to match HTML tags
 
@@ -19,55 +22,65 @@ const MovieDetailPage = () => {
 
   const { data } = useSWR(api, fetcher);
 
-  const detailMovie = data?.movie || [];
+  const [detailMovie, setDetailMovie] = useState(null);
 
-  const { name, category, content, poster_url } = detailMovie;
+  useEffect(() => {
+    if (data) {
+      setDetailMovie(data);
+    }
+  }, [data, detailMovie]);
 
-  console.log("detailMovie:", detailMovie);
+  const { category, content, poster_url, name } = detailMovie?.movie || {};
+  console.log("{ category, content, poster_url }:", {
+    category,
+    content,
+    poster_url,
+  });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className="pb-32">
-      <div className="relative h-[60vh] w-full -translate-y-14 -z-10">
-        <div className=" absolute inset-0 overlay bg-gradient-to-t from-[rgba(0,0,0,1)] to-[rgba(0,0,0,0.4)]"></div>
-        <div
-          className="w-full h-full bg-center bg-no-repeat "
-          style={{
-            backgroundImage: `url(${poster_url})`,
-            backgroundSize: "cover",
-          }}
-        >
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center translate-y-1/2">
-            <div className="w-2/3 max-w-[540px] max-h-[560px] mx-auto">
-              <img src={poster_url} alt="" className="w-full h-auto" />
+    <>
+      {category && content && poster_url && name && (
+        <div className="pb-32">
+          <div className="relative h-[60vh] w-full -translate-y-14 -z-10">
+            <div className=" absolute inset-0 overlay bg-gradient-to-t from-[rgba(0,0,0,1)] to-[rgba(0,0,0,0.4)]"></div>
+            <div
+              className="w-full h-full bg-center bg-no-repeat "
+              style={{
+                backgroundImage: `url(${poster_url})`,
+                backgroundSize: "cover",
+              }}
+            >
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center translate-y-1/2">
+                <div className="w-2/3 max-w-[540px] max-h-[560px] mx-auto">
+                  <img src={poster_url} alt="" className="w-full h-auto" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-[942px] mx-auto">
+            <DetailMovies
+              name={name}
+              category={category}
+              content={content}
+            ></DetailMovies>
+            <div className="flex items-center justify-center mt-12 name-film ">
+              <img
+                src="https://s3-alpha-sig.figma.com/img/44c7/ffa5/90be4ad3f24b3541f079f649fc43b543?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=itV1BSeK4CY0fbEAOazDyM6ty58HBn8HyfxlEWCH7h5sluSFDfyCgh9d~R63JSRy9Azuo7Z4CehMkQQhqGTn-Sn8LcujWz50ZqeTuFKK7WzQ9di5NX0RXknkOEOoAxCKd7O9Gc4S71RGxEQJp~ap9QwJnRCsnnUSvGgOx6d2ZhkEL8jRnSRQf8NL7rkzcG7MpAGBooE4MhzL26aWWt1EnLTpYXNweSslIVPFelUlc4UglokedrLPGIc930w5dUmcX~FnC~nkqDGZcMm~-n0Rn9UlqYlDymJzJzN6IN5xYt7EFbXWiRyqDzm-gOS7SpVI3hz9ddFL3KK7aVYLaja15A__"
+                alt=""
+              />
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="max-w-[942px] mx-auto">
-        <DetailMovies></DetailMovies>
-        <div className="flex items-center justify-center mt-12 name-film ">
-          <img
-            src="https://s3-alpha-sig.figma.com/img/44c7/ffa5/90be4ad3f24b3541f079f649fc43b543?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=itV1BSeK4CY0fbEAOazDyM6ty58HBn8HyfxlEWCH7h5sluSFDfyCgh9d~R63JSRy9Azuo7Z4CehMkQQhqGTn-Sn8LcujWz50ZqeTuFKK7WzQ9di5NX0RXknkOEOoAxCKd7O9Gc4S71RGxEQJp~ap9QwJnRCsnnUSvGgOx6d2ZhkEL8jRnSRQf8NL7rkzcG7MpAGBooE4MhzL26aWWt1EnLTpYXNweSslIVPFelUlc4UglokedrLPGIc930w5dUmcX~FnC~nkqDGZcMm~-n0Rn9UlqYlDymJzJzN6IN5xYt7EFbXWiRyqDzm-gOS7SpVI3hz9ddFL3KK7aVYLaja15A__"
-            alt=""
-          />
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
-function DetailMovies() {
-  const { id } = useParams();
-
-  const api = `https://ophim1.com/phim/${id}`;
-
-  const { data } = useSWR(api, fetcher);
-
-  const detailMovie = data?.movie || [];
-
-  const { name, category, content } = detailMovie;
-
+function DetailMovies({ name, category, content }) {
   return (
     <div className="">
       <h1 className="mt-32 text-4xl font-semibold text-center text-white">
@@ -126,5 +139,11 @@ function DetailMovies() {
     </div>
   );
 }
+
+DetailMovies.propTypes = {
+  name: PropTypes.string,
+  category: PropTypes.string,
+  content: PropTypes.string,
+};
 
 export default MovieDetailPage;
