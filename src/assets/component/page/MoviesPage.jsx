@@ -57,6 +57,7 @@ const MoviesPage = () => {
           <i className="ml-2 text-xl text-white fa-brands fa-searchengin"></i>
         </button>
       </div>
+
       <div className="grid grid-cols-4 gap-5">
         {movies?.length > 0 &&
           movies.map((item, index) => {

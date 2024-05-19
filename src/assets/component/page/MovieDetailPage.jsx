@@ -27,9 +27,10 @@ const MovieDetailPage = () => {
     }
   }, [data, detailMovie]);
 
-  const { category, content, poster_url, name } = detailMovie?.movie || {};
+  const { category, content, poster_url, name, thumb_url } =
+    detailMovie?.movie || {};
+  console.log("detailMovie?.movie:", detailMovie?.movie);
   const episodes = detailMovie?.episodes[0]?.server_data || [];
-  //console.log("listFilm:", episodes);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,9 +53,13 @@ const MovieDetailPage = () => {
                 backgroundSize: "cover",
               }}
             >
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center translate-y-1/2">
-                <div className="w-2/3 max-w-[540px] max-h-[560px] mx-auto">
-                  <img src={poster_url} alt="" className="w-full h-auto" />
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center translate-y-20">
+                <div className="w-full max-w-[340px] max-h-[340px] mx-auto">
+                  <img
+                    src={thumb_url}
+                    alt=""
+                    className="object-cover w-full h-auto"
+                  />
                 </div>
               </div>
             </div>
@@ -82,8 +87,8 @@ function DetailMovies({ name, category, content, episodes, url, setUrl }) {
   }
   return (
     <div>
-      <div className="flex flex-col items-center justify-center gap-5 ">
-        <h1 className="mt-32 text-4xl font-semibold text-center text-white">
+      <div className="flex flex-col items-center justify-center gap-5 mt-20">
+        <h1 className="text-4xl font-semibold text-center text-white mt-28 ">
           {name ? name : "name"}
         </h1>
         {category?.length > 0 && (
@@ -117,7 +122,9 @@ function DetailMovies({ name, category, content, episodes, url, setUrl }) {
           <div className="grid grid-cols-9 mt-6 gap-7">
             {episodes.map((item, index) => {
               {
-                console.log("  url?.name:  ", url?.name);
+                {
+                  /*console.log("  url?.name:  ", url?.name);*/
+                }
                 if (index === 0 && url === null) {
                   setUrl(item);
                 }
