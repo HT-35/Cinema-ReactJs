@@ -19,6 +19,8 @@ const MovieDetailPage = () => {
   const [detailMovie, setDetailMovie] = useState(null);
   //console.log("detailMovie:", detailMovie);
 
+  const [url, setUrl] = useState(null);
+
   useEffect(() => {
     if (data) {
       setDetailMovie(data);
@@ -30,18 +32,18 @@ const MovieDetailPage = () => {
   //console.log("listFilm:", episodes);
 
   useEffect(() => {
-    //window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
     return () => {
       setDetailMovie(null);
     };
-  }, []);
+  }, [url]);
 
   return (
     <>
       {category && content && poster_url && name && (
         <div className="pb-32">
-          <div className="relative h-[60vh] w-full -translate-y-14 -z-10">
+          <div className="relative h-[60vh] w-full -translate-y-14 -z-10 select-none">
             <div className="absolute inset-0 overlay bg-gradient-to-t from-[rgba(0,0,0,1)] to-[rgba(0,0,0,0.4)]"></div>
             <div
               className="w-full h-full bg-center bg-no-repeat"
@@ -64,6 +66,8 @@ const MovieDetailPage = () => {
               category={category}
               content={content}
               episodes={episodes}
+              url={url}
+              setUrl={setUrl}
             ></DetailMovies>
           </div>
         </div>
@@ -72,7 +76,7 @@ const MovieDetailPage = () => {
   );
 };
 
-function DetailMovies({ name, category, content, episodes }) {
+function DetailMovies({ name, category, content, episodes, url, setUrl }) {
   if (!name && !category && !content) {
     return null;
   }
@@ -101,7 +105,7 @@ function DetailMovies({ name, category, content, episodes }) {
           {removeHtmlTags(content)}
         </div>
         <iframe
-          src="https://vip.opstream16.com/share/af37f5b0de67364f54d9b53d8e8afbfa"
+          src={url?.link_embed}
           width="880"
           height="500"
           frameBorder="0"
@@ -110,12 +114,24 @@ function DetailMovies({ name, category, content, episodes }) {
         ></iframe>
 
         {episodes?.length > 0 && (
-          <div className="grid grid-cols-10 mt-6 gap-7">
-            {episodes.map((item) => {
+          <div className="grid grid-cols-9 mt-6 gap-7">
+            {episodes.map((item, index) => {
+              {
+                console.log("  url?.name:  ", url?.name);
+                if (index === 0 && url === null) {
+                  setUrl(item);
+                }
+              }
               return (
                 <button
+                  onClick={() => setUrl(item)}
                   key={item.id}
-                  className="btn-episodes text-lg text-center font-semibold text-white border-2 border-[#7D6AFF] p-2 px-4 rounded-xl  hover:bg-gradient-to-t hover:from-slate-200 hover:to-slate-500 hover:transition-all"
+                  className={` ${
+                    Number(url?.name) === Number(index + 1) ||
+                    url?.name == "Full"
+                      ? "bg-violet-700"
+                      : ""
+                  } text-lg w-14 h-10 text-center font-semibold text-white border-2 border-[#7D6AFF]  px-2 rounded-xl hover:bg-violet-700 active:bg-violet-500  hover:transition-all `}
                 >
                   {item.name || "category"}
                 </button>
@@ -132,7 +148,9 @@ DetailMovies.propTypes = {
   name: PropTypes.string,
   category: PropTypes.array,
   content: PropTypes.string,
-  episodes: PropTypes.string,
+  episodes: PropTypes.array,
+  url: PropTypes.string,
+  setUrl: PropTypes.func,
 };
 
 export default MovieDetailPage;
