@@ -99,7 +99,7 @@ function DetailMovies({ name, category, content, episodes, url, setUrl }) {
         </h1>
         {category?.length > 0 && (
           <div className="flex items-center justify-center mt-6 gap-7">
-            {category.map((item) => {
+            {category.slice(0, 2).map((item) => {
               return (
                 <span
                   key={item.id}
@@ -125,7 +125,7 @@ function DetailMovies({ name, category, content, episodes, url, setUrl }) {
         ></iframe>
 
         {episodes?.length > 0 && (
-          <div className="grid grid-cols-9 mt-6 gap-7">
+          <div className="grid grid-cols-7 gap-10 mt-6">
             {episodes.map((item, index) => {
               console.log("item:", item);
               return (
@@ -137,7 +137,7 @@ function DetailMovies({ name, category, content, episodes, url, setUrl }) {
                     url?.name == "Full"
                       ? "bg-violet-700"
                       : ""
-                  } text-lg w-14 h-10 text-center font-semibold text-white border-2 border-[#7D6AFF]  px-2 rounded-xl hover:bg-violet-700 active:bg-violet-500  hover:transition-all `}
+                  } text-base w-24 h-10 text-center font-semibold text-white border-2 border-[#7D6AFF]  rounded-xl hover:bg-violet-700 active:bg-violet-500  hover:transition-all  `}
                 >
                   {item.name || "category"}
                 </button>
