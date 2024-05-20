@@ -1,18 +1,39 @@
 import PropTypes from "prop-types";
 import useSWR from "swr";
 import { fetcher } from "../../../config/config";
+import { useEffect, useState } from "react";
+import { callApiGet } from "../../utils/callApi";
 
 const BannerDetail = ({ movies }) => {
-  const { name, poster_url, slug } = movies;
+  const { original_title: name, backdrop_path, slug, id } = movies;
+  console.log("id:", id);
+
+  const [detailMovie, setDetailMovie] = useState(null);
+
+  useEffect(() => {
+    const fetchNewData = async () => {
+      const url = "https://api.themoviedb.org/3/movie/${id}";
+      console.log("url:", url);
+      const data = await callApiGet(url);
+      //console.log("data:", data);
+      setDetailMovie(data);
+      //console.log("data:", data.data.results);
+      return data;
+      //if (data && data.items) setMovies(data.items);
+    };
+    fetchNewData();
+  }, []);
+
+  //console.log("movies: ", movies);
 
   const apiDetailFilm = `https://ophim1.com/phim/${slug}`;
 
+  //console.log("poster_url:", poster_url);
   const { data } = useSWR(apiDetailFilm, fetcher);
   //console.log("data:", data);
   const category = data?.movie?.category || [];
 
   const categoryList = category.map((item) => item.name);
-  console.log("category:", categoryList);
 
   //console.log("cate:", cate);
 
@@ -24,7 +45,7 @@ const BannerDetail = ({ movies }) => {
       ></div>
       <div className="w-full h-full bg-white rounded-lg">
         <img
-          src={`https://img.ophim.live/uploads/movies/${poster_url}`}
+          src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
           alt=""
           className="object-cover w-full h-full rounded-lg"
           //className="object-cover w-full h-full filter brightness-[0.7] rounded-lg"
