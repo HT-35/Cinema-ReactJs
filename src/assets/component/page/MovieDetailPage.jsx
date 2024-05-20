@@ -82,13 +82,19 @@ const MovieDetailPage = () => {
 };
 
 function DetailMovies({ name, category, content, episodes, url, setUrl }) {
+  useEffect(() => {
+    if (episodes.length > 0 && url === null) {
+      setUrl(episodes[0]);
+    }
+  }, [episodes, setUrl, url]);
+
   if (!name && !category && !content) {
     return null;
   }
   return (
     <div>
       <div className="flex flex-col items-center justify-center gap-5 mt-20">
-        <h1 className="text-4xl font-semibold text-center text-white mt-28 ">
+        <h1 className="mt-24 text-4xl font-semibold text-center text-white ">
           {name ? name : "name"}
         </h1>
         {category?.length > 0 && (
@@ -121,18 +127,11 @@ function DetailMovies({ name, category, content, episodes, url, setUrl }) {
         {episodes?.length > 0 && (
           <div className="grid grid-cols-9 mt-6 gap-7">
             {episodes.map((item, index) => {
-              {
-                {
-                  /*console.log("  url?.name:  ", url?.name);*/
-                }
-                if (index === 0 && url === null) {
-                  setUrl(item);
-                }
-              }
+              console.log("item:", item);
               return (
                 <button
                   onClick={() => setUrl(item)}
-                  key={item.id}
+                  key={item.name || index}
                   className={` ${
                     Number(url?.name) === Number(index + 1) ||
                     url?.name == "Full"
@@ -156,7 +155,7 @@ DetailMovies.propTypes = {
   category: PropTypes.array,
   content: PropTypes.string,
   episodes: PropTypes.array,
-  url: PropTypes.string,
+  url: PropTypes.object,
   setUrl: PropTypes.func,
 };
 

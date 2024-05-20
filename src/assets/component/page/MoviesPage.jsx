@@ -8,14 +8,23 @@ const MoviesPage = () => {
 
   const api = `https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=${numberPage}`;
 
+  const [keySearch, setKeySearch] = useState("iron+man");
+
+  //const apiSearch = `https://ophim16.cc/_next/data/VSpdzWkCdPuoOkHhEcMVy/tim-kiem.json?keyword=iron+man`;
+
   const { data } = useSWR(api, fetcher);
+
+  //const { result } = useSWR(apiSearch, fetcher);
+  //console.log("result:", result);
 
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     if (data && data.items)
       setMovies((prevData) => [...prevData, ...data.items]);
-  }, [data, numberPage]);
+
+    console.log(keySearch);
+  }, [data, keySearch, numberPage]);
 
   useEffect(() => {
     //if (data && data.items) setMovies(data.items);
@@ -23,12 +32,6 @@ const MoviesPage = () => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } =
         document.documentElement;
-      console.log(
-        "scrollTop, scrollHeight, clientHeight:",
-        scrollTop,
-        scrollHeight,
-        clientHeight
-      );
 
       if (scrollTop + clientHeight >= scrollHeight / 2) {
         setNumberPage((prevNumberPage) => prevNumberPage + 1);
@@ -49,6 +52,7 @@ const MoviesPage = () => {
           type="text"
           name=""
           id=""
+          onChange={(e) => setKeySearch(e.target.value.trim())}
           className="text-white w-full p-2 pl-4 text-xl bg-[#173D54] rounded-l-lg focus:border-rose-500 focus:outline-none"
           placeholder="Type here to search ..."
         />
