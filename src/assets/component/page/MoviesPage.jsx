@@ -3,10 +3,16 @@ import MoviesCard from "../../movies/MoviesCard";
 import { callApiGet } from "../../utils/callApi";
 import useDeboundCustom from "../../hooks/useDeboundCustom";
 
+const SkeletonCard = () => {
+  return <div className="w-full h-64 bg-gray-300 animate-pulse"></div>;
+};
+
 const MoviesPage = () => {
   const [numberPage, setNumberPage] = useState(1);
   const [movies, setMovies] = useState([]);
   const [keySearch, setKeySearch] = useState("");
+  //const [initialLoading, setInitialLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const deboundKeySearch = useDeboundCustom(keySearch, 500);
 
@@ -14,24 +20,30 @@ const MoviesPage = () => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } =
         document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight / 2) {
+      if (scrollTop + clientHeight >= scrollHeight / 2 && !deboundKeySearch) {
         setNumberPage((prevNumberPage) => prevNumberPage + 1);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [deboundKeySearch]);
 
   useEffect(() => {
     const getMovies = async () => {
+      if (numberPage === 1 || deboundKeySearch) {
+        setLoading(true);
+      }
+
       let url;
       if (deboundKeySearch) {
         url = `https://api.themoviedb.org/3/search/movie?query=${deboundKeySearch}`;
       } else {
         url = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${numberPage}`;
       }
+
       const data = await callApiGet(url);
+
       if (data && data.data.results) {
         setMovies((prevMovies) => {
           if (deboundKeySearch) {
@@ -41,6 +53,8 @@ const MoviesPage = () => {
           }
         });
       }
+
+      setLoading(false);
     };
 
     getMovies();
@@ -68,10 +82,21 @@ const MoviesPage = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-4 gap-5">
-        {movies.length > 0 &&
-          movies.map((item, index) => <MoviesCard key={index} movies={item} />)}
-      </div>
+      {loading && (
+        <div className="grid grid-cols-4 gap-5">
+          {Array.from({ length: 20 }).map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        </div>
+      )}
+      {!loading && (
+        <div className="grid grid-cols-4 gap-5">
+          {movies.length > 0 &&
+            movies.map((item, index) => (
+              <MoviesCard key={index} movies={item} />
+            ))}
+        </div>
+      )}
     </>
   );
 };
