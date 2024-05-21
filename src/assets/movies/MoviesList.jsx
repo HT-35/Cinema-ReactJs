@@ -13,7 +13,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import MoviesCard from "./MoviesCard";
+import MoviesCard from "./MoviesCardPa";
 
 import { useEffect, useState } from "react";
 import { callApiGet } from "../utils/callApi";

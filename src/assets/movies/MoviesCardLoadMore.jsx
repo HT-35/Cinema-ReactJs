@@ -4,7 +4,14 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 const MoviesCard = ({ movies }) => {
-  const { original_title: name, poster_path, id, vote_average } = movies;
+  const {
+    original_title: name,
+    poster_path,
+    id,
+    vote_average,
+    release_date,
+  } = movies;
+  console.log("movies:", movies);
 
   const compactName =
     name?.length > 30
@@ -28,7 +35,9 @@ const MoviesCard = ({ movies }) => {
           {compactName ? compactName : "Name"}
         </h6>
         <div className="flex justify-between py-3 text-white manufacture-evaluate text-opacity-70">
-          {/*<div className="manufacture">{year ? year : "year"}</div>*/}
+          <div className="manufacture">
+            {release_date ? release_date.slice(0, 4) : "year"}
+          </div>
           <div className="evaluate">
             {vote_average}
             <i className="fa-solid fa-star " style={{ color: "#FFD43B" }}></i>

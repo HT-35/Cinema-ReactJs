@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 const BannerDetail = ({ movies }) => {
-  const { original_title: name, poster_path, slug, id, vote_average } = movies;
+  const { original_title: name, poster_path } = movies;
 
   return (
     <section className="banner page-container h-[500px] relative  mb-5 ">

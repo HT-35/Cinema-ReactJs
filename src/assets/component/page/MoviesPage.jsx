@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MoviesCard from "../../movies/MoviesCard";
+import MoviesCard from "../../movies/MoviesCardPa";
 import { callApiGet } from "../../utils/callApi";
 import useDeboundCustom from "../../hooks/useDeboundCustom";
 
