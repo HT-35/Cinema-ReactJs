@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./assets/component/layout/Main";
 import HomePage from "./assets/component/page/HomePage";
 import Banner from "./assets/component/Banner/Banner";
-import MoviesPage from "./assets/component/page/MoviesPage";
+import MoviesPage from "./assets/component/page/MoviesPagePag";
 import MovieDetailPage from "./assets/component/page/MovieDetailPage";
 
 //import { NavLink } from "react-router-dom";

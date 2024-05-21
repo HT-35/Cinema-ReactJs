@@ -14,6 +14,25 @@
 
   <body>
     <div id="root"></div>
+
+    <!-- Messenger Chat Plugin Code -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js"></script>
+
+    <!-- Your customer chat code -->
+    <div class="fb-customerchat" attribution=setup_tool page_id="338859389302727" theme_color="#0084ff"
+      logged_in_greeting="Hi! How can we help you?" logged_out_greeting="Hi! How can we help you?">
+    </div>
+
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          xfbml: true,
+          version: 'v11.0'
+        });
+      };
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 
