@@ -13,12 +13,11 @@
   </head>
 
   <body>
+    <div id="root"></div>
+
     <!-- Messenger Chat Plugin Code -->
     <div id="fb-root"></div>
     <div id="fb-customer-chat" class="fb-customerchat"></div>
-
-    <div id="root"></div>
-
 
     <script>
       var chatbox = document.getElementById('fb-customer-chat');
@@ -30,7 +29,8 @@
       window.fbAsyncInit = function () {
         FB.init({
           xfbml: true,
-          version: 'v11.0'
+          version: 'v11.0',
+          appId: 'YOUR_APP_ID'
         });
       };
 
