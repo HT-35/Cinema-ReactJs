@@ -25,7 +25,7 @@ const Banner = () => {
       const url =
         "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
       const data = await callApiGet(url);
-      console.log("data:", data);
+      //console.log("data:", data);
       setMovies(data.data.results);
       //console.log("data:", data.data.results);
       return data;

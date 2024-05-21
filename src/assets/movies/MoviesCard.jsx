@@ -4,11 +4,10 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 const MoviesCard = ({ movies }) => {
-  const { name, poster_url, slug, year } = movies;
-  //const poster = `https://img.ophim.live/uploads/movies/${poster_url}`;
+  const { original_title: name, poster_path, id, vote_average } = movies;
 
   const compactName =
-    name.length > 30
+    name?.length > 30
       ? name.length <= 35
         ? `${name.slice(0, 35)}`
         : `${name.slice(0, 35)}...`
@@ -20,7 +19,7 @@ const MoviesCard = ({ movies }) => {
   return (
     <div className="flex flex-col h-full gap-3 p-2 bg-white rounded-md bg-opacity-10 movie-card">
       <img
-        src={`https://img.ophim.live/uploads/movies/${poster_url}`}
+        src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
         alt=""
         className="rounded-md h-[200px] object-cover hover:cursor-pointer"
       />
@@ -29,16 +28,16 @@ const MoviesCard = ({ movies }) => {
           {compactName ? compactName : "Name"}
         </h6>
         <div className="flex justify-between py-3 text-white manufacture-evaluate text-opacity-70">
-          <div className="manufacture">{year ? year : "year"}</div>
+          {/*<div className="manufacture">{year ? year : "year"}</div>*/}
           <div className="evaluate">
-            7.4{" "}
+            {vote_average}
             <i className="fa-solid fa-star " style={{ color: "#FFD43B" }}></i>
           </div>
         </div>
         <button
           onClick={() => {
             //console.log(slug);
-            navigate(`/movies/${slug}`);
+            navigate(`/movies/${id}`);
           }}
           className="py-2 px-1 text-white button bg-[#FF3D71] rounded-lg max-w-full flex justify-center gap-3 text-center"
         >

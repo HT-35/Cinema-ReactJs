@@ -1,57 +1,63 @@
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { fetcher } from "../../../config/config";
 import MoviesCard from "../../movies/MoviesCard";
+import { callApiGet } from "../../utils/callApi";
+import useDeboundCustom from "../../hooks/useDeboundCustom";
 
 const MoviesPage = () => {
   const [numberPage, setNumberPage] = useState(1);
-
-  const api = `https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=${numberPage}`;
-
-  const [keySearch, setKeySearch] = useState("iron+man");
-
-  //const apiSearch = `https://ophim16.cc/_next/data/VSpdzWkCdPuoOkHhEcMVy/tim-kiem.json?keyword=iron+man`;
-
-  const { data } = useSWR(api, fetcher);
-
-  //const { result } = useSWR(apiSearch, fetcher);
-  //console.log("result:", result);
-
   const [movies, setMovies] = useState([]);
+  const [keySearch, setKeySearch] = useState("");
+
+  const deboundKeySearch = useDeboundCustom(keySearch, 500);
 
   useEffect(() => {
-    if (data && data.items)
-      setMovies((prevData) => [...prevData, ...data.items]);
-
-    console.log(keySearch);
-  }, [data, keySearch, numberPage]);
-
-  useEffect(() => {
-    //if (data && data.items) setMovies(data.items);
-
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } =
         document.documentElement;
-
       if (scrollTop + clientHeight >= scrollHeight / 2) {
         setNumberPage((prevNumberPage) => prevNumberPage + 1);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      setMovies([]);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const getMovies = async () => {
+      let url;
+      if (deboundKeySearch) {
+        url = `https://api.themoviedb.org/3/search/movie?query=${deboundKeySearch}`;
+      } else {
+        url = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${numberPage}`;
+      }
+      const data = await callApiGet(url);
+      if (data && data.data.results) {
+        setMovies((prevMovies) => {
+          if (deboundKeySearch) {
+            return data.data.results;
+          } else {
+            return [...prevMovies, ...data.data.results];
+          }
+        });
+      }
+    };
+
+    getMovies();
+  }, [deboundKeySearch, numberPage]);
+
+  useEffect(() => {
+    if (!deboundKeySearch) {
+      setMovies([]); // Clear movies when the search term is cleared
+      setNumberPage(1); // Reset pagination
+    }
+  }, [deboundKeySearch]);
 
   return (
     <>
       <div className="flex items-center justify-center mb-8 mt-14">
         <input
           type="text"
-          name=""
-          id=""
           onChange={(e) => setKeySearch(e.target.value.trim())}
           className="text-white w-full p-2 pl-4 text-xl bg-[#173D54] rounded-l-lg focus:border-rose-500 focus:outline-none"
           placeholder="Type here to search ..."
@@ -63,10 +69,8 @@ const MoviesPage = () => {
       </div>
 
       <div className="grid grid-cols-4 gap-5">
-        {movies?.length > 0 &&
-          movies.map((item, index) => {
-            return <MoviesCard key={index} movies={item} />;
-          })}
+        {movies.length > 0 &&
+          movies.map((item, index) => <MoviesCard key={index} movies={item} />)}
       </div>
     </>
   );
