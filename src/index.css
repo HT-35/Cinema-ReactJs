@@ -8,6 +8,7 @@
   body {
     @apply bg-[#191A2E] font-body;
     transition: transform 0.5s ease, opacity 0.5s ease;
+    @apply transition-all;
   }
 }
 

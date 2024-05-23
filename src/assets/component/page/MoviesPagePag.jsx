@@ -10,13 +10,17 @@ const SkeletonCard = () => {
 const MoviesPage = () => {
   const [numberPage, setNumberPage] = useState(1);
   const [movies, setMovies] = useState([]);
+  console.log("movies:", movies);
+  //console.log("movies:", movies);
   const [keySearch, setKeySearch] = useState("");
-  //const [initialLoading, setInitialLoading] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   const deboundKeySearch = useDeboundCustom(keySearch, 500);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const getMovies = async () => {
       setLoading(true);
 
@@ -30,11 +34,11 @@ const MoviesPage = () => {
       const data = await callApiGet(url);
 
       if (data && data.data.results) {
-        setMovies((prevMovies) => {
+        setMovies(() => {
           if (deboundKeySearch) {
-            return data.data.results;
+            return data.data;
           } else {
-            return [...prevMovies, ...data.data.results];
+            return data.data;
           }
         });
       }
@@ -74,20 +78,62 @@ const MoviesPage = () => {
           ))}
         </div>
       )}
-      {!loading && (
+      {!loading && movies && (
         <div className="grid grid-cols-4 gap-5">
-          {movies.length > 0 &&
-            movies.map((item, index) => (
+          {movies?.results?.length > 0 &&
+            movies?.results.map((item, index) => (
               <MoviesCard key={index} movies={item} />
             ))}
         </div>
       )}
 
-      <div>
-        <span className="text-white ">1</span>
-        <span className="text-white ">2</span>
-        <span className="text-white ">3 </span>
-      </div>
+      {!loading && movies && (
+        <div className="flex items-center justify-center gap-4 my-10 select-none ">
+          <i className="text-white fa-solid fa-angle-left fa-xl hover:cursor-pointer"></i>
+          {Array.from({ length: movies?.total_pages }, (_, index) => {
+            let countPage = Number(movies?.total_pages);
+
+            if (index < 5) {
+              return (
+                <span
+                  key={index + 1}
+                  className={`${
+                    movies.page === index + 1
+                      ? "bg-[#303143] text-white"
+                      : " bg-white text-black"
+                  } 
+                  px-3 rounded-sm py-0.5  hover:cursor-pointer`}
+                  onClick={() => setNumberPage(index + 1)}
+                >
+                  {index + 1}
+                </span>
+              );
+            } else if (index === 5) {
+              return (
+                <span
+                  key={index + 1}
+                  className="px-3 rounded-sm py-0.5 text-black bg-white hover:cursor-pointer"
+                  onClick={() => setNumberPage(index + 1)}
+                >
+                  ...
+                </span>
+              );
+            } else if (index >= countPage - 3) {
+              return (
+                <span
+                  key={index + 1}
+                  className="px-3 rounded-sm py-0.5 text-black bg-white hover:cursor-pointer"
+                  onClick={() => setNumberPage(index + 1)}
+                >
+                  {index + 1}
+                </span>
+              );
+            }
+          })}
+
+          <i className="text-white fa-solid fa-angle-right fa-xl hover:cursor-pointer"></i>
+        </div>
+      )}
     </>
   );
 };

@@ -11,7 +11,6 @@ const MoviesCard = ({ movies }) => {
     vote_average,
     release_date,
   } = movies;
-  console.log("movies:", movies);
 
   const compactName =
     name?.length > 30
