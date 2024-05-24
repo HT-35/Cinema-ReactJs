@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { callApiGet } from "../../utils/callApi";
+import { tmdbAPI } from "../../../config/config";
 
 function removeHtmlTags(s) {
   const pattern = /<[^>]*>/g;
@@ -24,13 +25,15 @@ const MovieDetailPage = () => {
     window.scrollTo(0, 0);
 
     const fetchNewData = async () => {
-      const url = `https://api.themoviedb.org/3/movie/${id}`;
+      // get Detail Movie
+      const url = tmdbAPI.getDetailFilm(id); //  API get Detail Movie
       const data = await callApiGet(url);
       console.log("data:", data);
 
       if (data && data.data) SetDetailMovie(data.data);
 
-      const urlVideo = `https://api.themoviedb.org/3/movie/${id}/videos`;
+      // get SRC Video
+      const urlVideo = tmdbAPI.getSrcFlim(id); //  API SRC Video
       const link = await callApiGet(urlVideo);
 
       if (link && link?.data.results) SetLinksVideo(link?.data.results);
@@ -48,14 +51,14 @@ const MovieDetailPage = () => {
             <div
               className="w-full h-full bg-center bg-no-repeat"
               style={{
-                backgroundImage: `url(${`https://image.tmdb.org/t/p/w500/${poster_path}`})`,
+                backgroundImage: `url(${tmdbAPI.getImg(backdrop_path)})`,
                 backgroundSize: "cover",
               }}
             >
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-center translate-y-20">
                 <div className="w-full max-w-[340px] max-h-[340px] mx-auto">
                   <img
-                    src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+                    src={tmdbAPI.getImg(poster_path)}
                     alt=""
                     className="object-cover w-full h-auto"
                   />

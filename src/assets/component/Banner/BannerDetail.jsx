@@ -16,7 +16,7 @@ const BannerDetail = ({ movies }) => {
       ></div>
       <div className="w-full h-full bg-white rounded-lg">
         <img
-          src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+          src={tmdbAPI.getImg(poster_path)}
           alt=""
           className="object-cover w-full h-full rounded-lg"
         />

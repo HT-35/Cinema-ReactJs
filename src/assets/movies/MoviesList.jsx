@@ -17,14 +17,14 @@ import MoviesCard from "./MoviesCard";
 
 import { useEffect, useState } from "react";
 import { callApiGet } from "../utils/callApi";
+import { tmdbAPI } from "../../config/config";
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchNewData = async () => {
-      const url =
-        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
+      const url = tmdbAPI.getMovieList("now_playing");
       const data = await callApiGet(url);
 
       setMovies(data?.data?.results);

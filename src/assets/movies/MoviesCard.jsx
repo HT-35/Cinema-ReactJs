@@ -26,7 +26,7 @@ const MoviesCard = ({ movies }) => {
   return (
     <div className="flex flex-col h-full gap-3 p-2 bg-white rounded-md bg-opacity-10 movie-card">
       <img
-        src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+        src={tmdbAPI.getImg(poster_path)}
         alt=""
         className="rounded-md h-[200px] object-cover hover:cursor-pointer"
       />
