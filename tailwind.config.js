@@ -7,7 +7,7 @@ export default {
         body: ["DM-Sans", "sans-serif"],
       },
       colors: {
-        primary: "#F62682",
+        primary: "#FF3D71",
       },
     },
   },

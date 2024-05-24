@@ -2,6 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import Button from "../component/button/Button";
 
 const MoviesCard = ({ movies }) => {
   const {
@@ -42,7 +43,7 @@ const MoviesCard = ({ movies }) => {
             <i className="fa-solid fa-star " style={{ color: "#FFD43B" }}></i>
           </div>
         </div>
-        <button
+        {/*<button
           onClick={() => {
             //console.log(slug);
             navigate(`/movies/${id}`);
@@ -56,7 +57,21 @@ const MoviesCard = ({ movies }) => {
               style={{ color: "#ffffff" }}
             ></i>
           </span>
-        </button>
+        </button>*/}
+
+        <Button
+          onClick={() => {
+            navigate(`/movies/${id}`);
+          }}
+        >
+          Watch now
+          <span className="">
+            <i
+              className=" fa-solid fa-circle-play fa-xl"
+              style={{ color: "#ffffff" }}
+            ></i>
+          </span>
+        </Button>
       </div>
     </div>
   );

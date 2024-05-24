@@ -11,7 +11,8 @@ const MoviesPage = () => {
   const [numberPage, setNumberPage] = useState(1);
   const [movies, setMovies] = useState([]);
   console.log("movies:", movies);
-  //console.log("movies:", movies);
+  //const [numberPage, setNumberPage] = useState(1); // State để quản lý trang bắt đầu hiện tại
+  console.log("movies:", movies);
   const [keySearch, setKeySearch] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,10 @@ const MoviesPage = () => {
     }
   }, [deboundKeySearch]);
 
+  const handlePageClick = (page) => {
+    setNumberPage(page);
+  };
+
   return (
     <>
       <div className="flex items-center justify-center mb-8 mt-14">
@@ -89,40 +94,81 @@ const MoviesPage = () => {
 
       {!loading && movies && (
         <div className="flex items-center justify-center gap-4 my-10 select-none ">
-          <i className="text-white fa-solid fa-angle-left fa-xl hover:cursor-pointer"></i>
-          {Array.from({ length: movies?.total_pages }, (_, index) => {
-            let countPage = Number(movies?.total_pages);
+          <i
+            className="text-white fa-solid fa-angle-left fa-xl hover:cursor-pointer"
+            onClick={() => numberPage > 1 && setNumberPage((page) => page - 1)}
+          ></i>
 
-            if (index < 5) {
+          {/* tạo ra các số page trước đó tính từ page được chọn */}
+          {numberPage > 1 &&
+            Array.from({ length: Math.min(3, numberPage) }, (_, index) => {
+              let pageIndex = numberPage - index - 1;
+              if (pageIndex <= 0 || pageIndex >= movies?.total_pages - 2)
+                return null;
               return (
                 <span
-                  key={index + 1}
+                  key={pageIndex}
                   className={`${
-                    movies.page === index + 1
+                    numberPage === pageIndex
                       ? "bg-[#303143] text-white"
-                      : " bg-white text-black"
+                      : "bg-yellow-100 text-black"
                   } 
-                  px-3 rounded-sm py-0.5  hover:cursor-pointer`}
-                  onClick={() => setNumberPage(index + 1)}
+          px-3 rounded-sm py-0.5 hover:cursor-pointer`}
+                  onClick={() => handlePageClick(pageIndex)}
                 >
-                  {index + 1}
+                  {pageIndex}
                 </span>
               );
-            } else if (index === 5) {
+            }).reverse()}
+
+          {/* tạo ra các số page sau đó tính từ page được chọn */}
+          {Array.from(
+            { length: Math.min(3, movies?.total_pages - numberPage + 1) },
+            (_, index) => {
+              let pageIndex = numberPage + index;
+              if (pageIndex >= movies?.total_pages - 2) return null;
               return (
                 <span
-                  key={index + 1}
-                  className="px-3 rounded-sm py-0.5 text-black bg-white hover:cursor-pointer"
-                  onClick={() => setNumberPage(index + 1)}
+                  key={pageIndex}
+                  className={`${
+                    numberPage === pageIndex
+                      ? "bg-purple-300 text-white"
+                      : "bg-red-400 text-black"
+                  } px-3 rounded-sm py-0.5 hover:cursor-pointer`}
+                  onClick={() => handlePageClick(pageIndex)}
                 >
-                  ...
+                  {pageIndex}
                 </span>
               );
-            } else if (index >= countPage - 3) {
+            }
+          )}
+
+          {/* tạo ra các các dấu ..... */}
+          {numberPage + 3 <= movies?.total_pages - 2 && (
+            <span
+              className="px-3 rounded-sm py-0.5 text-black bg-white hover:cursor-pointer"
+              onClick={() => handlePageClick(numberPage + 1)}
+            >
+              ...
+            </span>
+          )}
+
+          {/* tạo ra  3 page cuối cùng */}
+          {Array.from({ length: movies?.total_pages }, (_, index) => {
+            let count = Number(movies?.total_pages);
+            console.log("count:", count);
+
+            console.log(index + 1, movies?.total_pages);
+            if (index + 1 > movies?.total_pages) return null;
+            if (index + 1 >= count - 2) {
               return (
                 <span
-                  key={index + 1}
-                  className="px-3 rounded-sm py-0.5 text-black bg-white hover:cursor-pointer"
+                  key={index}
+                  className={`${
+                    numberPage === index + 1
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-black"
+                  } px-3 rounded-sm py-0.5 hover:cursor-pointer`}
                   onClick={() => setNumberPage(index + 1)}
                 >
                   {index + 1}
@@ -130,8 +176,10 @@ const MoviesPage = () => {
               );
             }
           })}
-
-          <i className="text-white fa-solid fa-angle-right fa-xl hover:cursor-pointer"></i>
+          <i
+            className="text-white fa-solid fa-angle-right fa-xl hover:cursor-pointer"
+            onClick={() => numberPage >= 1 && setNumberPage((page) => page + 1)}
+          ></i>
         </div>
       )}
     </>
