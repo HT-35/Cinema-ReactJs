@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
+import Button from "../button/Button";
+import { useNavigate } from "react-router";
 
 const BannerDetail = ({ movies }) => {
-  const { original_title: name, poster_path } = movies;
+  const { original_title: name, poster_path, id } = movies;
+  console.log("movies banner:", movies);
+
+  const navigate = useNavigate();
 
   return (
     <section className="banner page-container h-[500px] relative  mb-5 ">
@@ -42,7 +47,7 @@ const BannerDetail = ({ movies }) => {
         </div>
 
         <div className="grid grid-cols-2 select-none">
-          <button className="py-3 px-6 text-white button bg-[#FF3D71] rounded-lg max-w-[150px] flex gap-3">
+          {/*<button className="py-3 px-6 text-white button bg-[#FF3D71] rounded-lg max-w-[150px] flex gap-3">
             Watch
             <span className="">
               <i
@@ -50,7 +55,21 @@ const BannerDetail = ({ movies }) => {
                 style={{ color: "#ffffff" }}
               ></i>
             </span>
-          </button>
+          </button>*/}
+          <Button
+            onClick={() => {
+              navigate(`/movies/${id}`);
+            }}
+          >
+            Watch now
+            <span className="">
+              <i
+                className=" fa-solid fa-circle-play fa-xl"
+                style={{ color: "#ffffff" }}
+              ></i>
+            </span>
+          </Button>
+
           <button className="py-3 px-6 text-white button bg-white bg-opacity-30 rounded-lg max-w-[60px] flex gap-3 justify-center items-center">
             <i
               className="fa-solid fa-plus fa-lg"
