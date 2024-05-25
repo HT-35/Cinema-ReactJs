@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import Button from "../button/Button";
 import { useNavigate } from "react-router";
+import { tmdbAPI } from "../../../config/config";
 
 const BannerDetail = ({ movies }) => {
   const { original_title: name, poster_path, id } = movies;

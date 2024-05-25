@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MoviesCard from "../../movies/MoviesCard";
 import { callApiGet } from "../../utils/callApi";
 import useDeboundCustom from "../../hooks/useDeboundCustom";
+import { tmdbAPI } from "../../../config/config";
 
 const SkeletonCard = () => {
   return <div className="w-full h-64 bg-gray-300 animate-pulse"></div>;
@@ -36,10 +37,12 @@ const MoviesPage = () => {
       }
 
       let url;
+      // nếu tồn tại key search thì sẽ gán api search
       if (deboundKeySearch) {
-        url = `https://api.themoviedb.org/3/search/movie?query=${deboundKeySearch}`;
+        url = tmdbAPI.searchFilm(deboundKeySearch);
       } else {
-        url = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${numberPage}`;
+        // ngược lại thì lấy api get now playing
+        url = tmdbAPI.getMovieList("now_playing", numberPage);
       }
 
       const data = await callApiGet(url);
