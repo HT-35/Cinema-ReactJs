@@ -6,6 +6,7 @@ import Banner from "./assets/component/Banner/Banner";
 //import MovieDetailPage from "./assets/component/page/MovieDetailPage";
 
 import { lazy, Suspense } from "react";
+import Error404 from "./assets/component/404/Error404";
 
 const HomePage = lazy(() => import("./assets/component/page/HomePage"));
 const MoviesPage = lazy(() => import("./assets/component/page/MoviesPagePag"));
@@ -41,7 +42,10 @@ const App = () => {
             ></Route>
 
             <Route path="/movies/:id" Component={MovieDetailPage}></Route>
-            <Route path="/*" Component={MovieDetailPage}></Route>
+            <Route
+              path="/*"
+              element={<div className="text-white">Not Found</div>}
+            ></Route>
           </Route>
         </Routes>
       </Suspense>
